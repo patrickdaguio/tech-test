@@ -1,7 +1,9 @@
 import { useEffect, useState, createContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import PostsContainer, { Posts } from './components/PostsContainer';
+import Post from './components/Post';
+import PostsContainer from './components/PostsContainer';
 import Title from './components/Title';
+import Error from './components/Error';
 
 export const DataContext = createContext();
 
@@ -37,7 +39,8 @@ function App() {
 				<Title />
 				<Routes>
 					<Route path="/" element={<PostsContainer />} />
-					<Route path="/posts/:post" element={<Posts />} />
+					<Route path="/posts/:id" element={<Post />} />
+					<Route path="*" element={<Error />} />
 				</Routes>
 			</div>
 		</DataContext.Provider>

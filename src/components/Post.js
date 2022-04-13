@@ -2,37 +2,36 @@ import { useContext, useState } from 'react';
 import { DataContext } from '../App';
 import Comments from './Comments';
 import Form from './Form';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import Error from './Error';
 
-const PostsContainer = () => {
+const Post = () => {
+	const { id } = useParams();
 	const { posts, comments } = useContext(DataContext);
-	return (
-		<div className="posts-container">
-			{posts &&
-				comments &&
-				comments.length > 0 &&
-				posts.length > 0 &&
-				posts.map(post => {
-					let { id, title } = post;
-					return <Posts id={id} title={title} key={id} comments={comments} />;
-				})}
-		</div>
-	);
-};
-
-export const Posts = ({ id, title, comments }) => {
 	const [showComments, setShowComments] = useState(false);
 
 	function filterComments() {
-		return comments.filter(comment => comment.postId === id);
+		return comments.filter(comment => comment.postId === parseInt(id));
 	}
+
+	console.log(posts);
+	console.log(comments);
+	console.log(useContext(DataContext));
 
 	let totalComments = filterComments();
 
+	function filterPosts() {
+		return posts.filter(post => post.id === parseInt(id));
+	}
+
+	let filteredPost = filterPosts();
+
+	if (!id) return <Error />;
+
 	return (
 		<section className="posts">
-			<h2 className="text-2xl font-semibold border-b-2 mr-2 last:mr-0">
-				<Link to={`/posts/${id}`}>{title}</Link>
+			<h2 className="text-2xl font-semibold mr-2 last:mr-0">
+				{filteredPost[0].title}
 			</h2>
 			<p className="text-lg my-2">ID: {id}</p>
 			<button
@@ -55,11 +54,14 @@ export const Posts = ({ id, title, comments }) => {
 							<h3>There are no comments to display for post {id}</h3>
 						)}
 					</div>
-					<Form postId={id} />
+					<Form postId={parseInt(id)} />
 				</>
 			)}
+			<h3 className="mt-4 underline text-blue-800">
+				<Link to="/">Go Back</Link>
+			</h3>
 		</section>
 	);
 };
 
-export default PostsContainer;
+export default Post;
