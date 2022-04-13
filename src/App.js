@@ -11,6 +11,7 @@ function App() {
 	const [posts, setPosts] = useState({});
 	const [comments, setComments] = useState({});
 
+	// Fetches JSON data from public folder
 	const getData = () => {
 		fetch('data.json', {
 			headers: {

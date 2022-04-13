@@ -10,16 +10,14 @@ const Post = () => {
 	const { posts, comments } = useContext(DataContext);
 	const [showComments, setShowComments] = useState(false);
 
+	// Filters database to fetch comments specific to post
 	function filterComments() {
 		return comments.filter(comment => comment.postId === parseInt(id));
 	}
 
-	console.log(posts);
-	console.log(comments);
-	console.log(useContext(DataContext));
-
 	let totalComments = filterComments();
 
+	// Filters database to fetch the specified post
 	function filterPosts() {
 		return posts.filter(post => post.id === parseInt(id));
 	}
@@ -43,20 +41,27 @@ const Post = () => {
 				onClick={() => setShowComments(!showComments)}>
 				Show Comments ({totalComments.length})
 			</button>
-			{showComments && (
-				<>
-					<div className="mt-5">
-						{totalComments.length > 0 ? (
-							totalComments.map(comment => (
-								<Comments comment={comment} key={comment.id} />
-							))
-						) : (
-							<h3>There are no comments to display for post {id}</h3>
-						)}
-					</div>
-					<Form postId={parseInt(id)} />
-				</>
-			)}
+
+			{
+				// Checks if comment sections has been toggled
+				showComments && (
+					<>
+						<div className="mt-5">
+							{
+								// Checks to see if comments exists within post
+								totalComments.length > 0 ? (
+									totalComments.map(comment => (
+										<Comments comment={comment} key={comment.id} />
+									))
+								) : (
+									<h3>There are no comments to display for post {id}</h3>
+								)
+							}
+						</div>
+						<Form postId={parseInt(id)} />
+					</>
+				)
+			}
 			<h3 className="mt-4 underline text-blue-800">
 				<Link to="/">Go Back</Link>
 			</h3>

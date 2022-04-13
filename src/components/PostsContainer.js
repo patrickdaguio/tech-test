@@ -8,14 +8,17 @@ const PostsContainer = () => {
 	const { posts, comments } = useContext(DataContext);
 	return (
 		<div className="posts-container">
-			{posts &&
-				comments &&
-				comments.length > 0 &&
-				posts.length > 0 &&
-				posts.map(post => {
-					let { id, title } = post;
-					return <Posts id={id} title={title} key={id} comments={comments} />;
-				})}
+			{
+				// Makes sure data has been properly fetched before running any code that uses it
+				posts &&
+					comments &&
+					comments.length > 0 &&
+					posts.length > 0 &&
+					posts.map(post => {
+						let { id, title } = post;
+						return <Posts id={id} title={title} key={id} comments={comments} />;
+					})
+			}
 		</div>
 	);
 };

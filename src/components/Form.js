@@ -13,8 +13,10 @@ const Form = ({ postId }) => {
 
 	const submitForm = e => {
 		e.preventDefault();
+		// Checks if comment ID already exists within database
 		if (comments.findIndex(comment => comment.id === formValue.id) >= 0) {
 			setError(true);
+			// Resets fiels and adds comment to database is ID is new
 		} else {
 			addComment(formValue);
 			setError(false);
